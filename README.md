@@ -4,4 +4,4 @@
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/Macau.jpg)
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/StarryNight.jpg)
 ## **下面是代码，以及自身对于实现的理解，谢谢！**
-![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/style_transfer.py)
+![text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/style_transfer.py)
