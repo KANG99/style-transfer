@@ -198,4 +198,5 @@ if __name__=='__main__':
 		end_time=time.time()
 		print('Used %ds'%(end_time-start_time))
 ```
+## 主要流程
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/comprehension.png)
