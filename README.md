@@ -1,4 +1,4 @@
-# **CNN图像风格迁移**
+# *CNN图像风格迁移*
 根据前辈提供的资料，重新用keras写的图像风格迁移,一下是迁移10次的结果和迁移的图片：
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results/09.png)
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/Macau.jpg)
@@ -201,6 +201,6 @@ if __name__=='__main__':
 ## 使用VGG19模型，示意图如下：
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/vgg19_img.png)
 ### 使用了前辈训练好的模型，模型下载地址如下：
-![c-code](https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5)
+<https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5>
 ## 主要流程
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/comprehension.png)
