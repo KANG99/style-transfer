@@ -203,4 +203,4 @@ if __name__=='__main__':
 ### 使用了前辈训练好的模型，模型下载地址如下：
 [c-code](https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5)
 ## 主要流程
-![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/comprehension.png)
+![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/proc.png)
