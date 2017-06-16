@@ -1,7 +1,6 @@
 # *CNN图像风格迁移*
 
-    根据前辈提供的资料，重新用keras写的图像风格迁移。需要注意的是测试的图片像素
-不宜过大，长宽可以照一定的比例进行压缩。
+    根据前辈提供的资料，重新用keras写的图像风格迁移。需要注意的是测试的图片像素不宜过大，长宽可以照一定的比例进行压缩。
 ## 图片
 ### 迁移图像
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results/15.png)
