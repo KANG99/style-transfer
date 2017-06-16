@@ -1,9 +1,14 @@
 # *CNN图像风格迁移*
-根据前辈提供的资料，重新用keras写的图像风格迁移,一下是迁移10次的结果和迁移的图片：
-![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results/09.png)
-![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/Macau.jpg)
-![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/StarryNight.jpg)
-## **下面是代码，以及自身对于实现的理解，谢谢！**
+    根据前辈提供的资料，重新用keras写的图像风格迁移,一下是迁移10次的结果和迁移的图片,图片大小影响神经元节点数，即影响计算量，在内存为4G的CPU环境下当800x600图片写出一张图片需要平均2.4h,但是图片压缩为原来1/4。，写出一张图片只需要不超过8min。
+因此，只在CPU运行环环境下图片不需要太大，可以按长宽比例进行压缩。
+## 图片
+### 迁移图像
+![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results/15.png)
+### 内容图像 
+![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/Taipei101.jpg)
+### 风格图片
+![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/guernica.jpg)
+## 下面是代码，以及自身对于实现的理解，谢谢！
 ```python
 #! /usr/bin/env python3
 # -*-coding=utf-8-*-
@@ -25,8 +30,8 @@ from keras.applications.imagenet_utils import _obtain_input_shape
 os=K.os
 np=K.np
 #定义目标图像长宽
-img_rows=800
-img_columns=600
+img_rows=400
+img_columns=300
 #读入图片文件，以数组形式展开成三阶张量，后用numpy扩展为四阶张量
 #最后使用对图片进行预处理：（1）去均值,（2）三基色RGB->BGR(3)调换维度 
 def read_img(filename):
@@ -187,8 +192,8 @@ if __name__=='__main__':
 	evaluator=Evaluator()
 	#生成噪声
 	x=np.random.uniform(0,225,(1,img_columns,img_rows,3))-128
-	#迭代训练10次
-	for ordering in range(10):
+	#迭代训练15次
+	for ordering in range(15):
 		print('Start:',ordering)
 		start_time=time.time()
 		x,min_val,info=fmin_l_bfgs_b(evaluator.loss,x.flatten(),fprime=evaluator.grads,maxfun=20)

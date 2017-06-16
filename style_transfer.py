@@ -18,8 +18,8 @@ from keras.applications.imagenet_utils import _obtain_input_shape
 os=K.os
 np=K.np
 #定义目标图像长宽
-img_rows=800
-img_columns=600
+img_rows=400
+img_columns=300
 #读入图片文件，以数组形式展开成三阶张量，后用numpy扩展为四阶张量
 #最后使用对图片进行预处理：（1）去均值,（2）三基色RGB->BGR(3)调换维度 
 def read_img(filename):
@@ -37,7 +37,7 @@ def write_img(x,ordering):
 	x[:,:,2]+=123.68
 	x=x[:,:,::-1]
 	x=np.clip(x,0,255).astype('uint8')
-	result_file=('results/%s'%str(ordering).zfill(2))+'.png'
+	result_file=('results/%s'%str(ordering+1).zfill(2))+'.png'
 	if not os.path.exists('results'):
 		os.mkdir('results')
 	imsave(result_file,x)
@@ -166,7 +166,8 @@ class Evaluator(object):
 if __name__=='__main__':
 	print('')
 	print('Welcom!')
-	path={'content':'images/Macau.jpg','style':'images/StarryNight.jpg'}
+	#path={'content':'images/Macau.jpg','style':'images/StarryNight.jpg'}
+	path={'content':'images/Taipei.jpg','style':'images/StarryNight.jpg'}
 	input_tensor,transfer_tensor=create_tensor(path['content'],path['style'])
 	loss_weights={'style':1.0,'content':0.025,'total':1.0}
 	model=vgg19_model(input_tensor)
@@ -180,8 +181,8 @@ if __name__=='__main__':
 	evaluator=Evaluator()
 	#生成噪声
 	x=np.random.uniform(0,225,(1,img_columns,img_rows,3))-128
-	#迭代训练10次
-	for ordering in range(10):
+	#迭代训练15次
+	for ordering in range(15):
 		print('Start:',ordering)
 		start_time=time.time()
 		x,min_val,info=fmin_l_bfgs_b(evaluator.loss,x.flatten(),fprime=evaluator.grads,maxfun=20)
