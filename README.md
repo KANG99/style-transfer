@@ -3,11 +3,17 @@
     根据前辈提供的资料，重新用keras写的图像风格迁移。需要注意的是测试的图片像素不宜过大，长宽可以照一定的比例进行压缩。
 ## 图片
 ### 迁移图像
+#### 迁移图像（1）
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results/15.png)
+#### 迁移图像（2）
+![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results-1/25.png)
 ### 内容图像 
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results/Taipei101.png)
 ### 风格图片
+#### 风格（1）
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results/guernica.png)
+#### 风格（2）
+![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results-1/StarryNight.png)
 ## 下面是代码，以及自身对于实现的理解，谢谢！
 ```python
 #! /usr/bin/env python3
@@ -203,9 +209,9 @@ if __name__=='__main__':
 		end_time=time.time()
 		print('Used %ds'%(end_time-start_time))
 ```
-## 使用VGG19模型，示意图如下：
+### 使用VGG19模型，示意图如下：
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/vgg19_img.png)
 ### 使用了前辈训练好的模型，模型下载地址如下：
 [c-code](https://github.com/fchollet/deep-learning-models/releases/download/v0.1/vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5)
-## 主要流程
+### 主要流程
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/proc.png)
