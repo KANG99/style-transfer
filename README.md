@@ -5,9 +5,9 @@
 ### 迁移图像
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results/15.png)
 ### 内容图像 
-![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/Taipei101.png)
+![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results/Taipei101.png)
 ### 风格图片
-![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/guernica.png)
+![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results/guernica.png)
 ## 下面是代码，以及自身对于实现的理解，谢谢！
 ```python
 #! /usr/bin/env python3
