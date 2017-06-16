@@ -1,13 +1,13 @@
 # *CNN图像风格迁移*
-    根据前辈提供的资料，重新用keras写的图像风格迁移,一下是迁移10次的结果和迁移的图片,图片大小影响神经元节点数，即影响计算量，在内存为4G的CPU环境下当800x600图片写出一张图片需要平均2.4h,但是图片压缩为原来1/4。，写出一张图片只需要不超过8min。
-因此，只在CPU运行环环境下图片不需要太大，可以按长宽比例进行压缩。
+    根据前辈提供的资料，重新用keras写的图像风格迁移。需要注意的是测试的图片像素
+不宜过大，长宽可以照一定的比例进行压缩。
 ## 图片
 ### 迁移图像
 ![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/results/15.png)
 ### 内容图像 
-![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/Taipei101.jpg)
+![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/Taipei101.png)
 ### 风格图片
-![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/guernica.jpg)
+![image text](https://raw.github.com/KANG99/Kang-keras-style-transfer/master/images/guernica.png)
 ## 下面是代码，以及自身对于实现的理解，谢谢！
 ```python
 #! /usr/bin/env python3
