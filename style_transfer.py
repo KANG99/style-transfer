@@ -1,5 +1,18 @@
 #! /usr/bin/env python3
 # -*-coding=utf-8-*-
+'''
+（1）图像风格迁移：给定一张普通图片和一种艺术风格图片，生成一张呈现艺术风格
+    和普通图片内容的迁移图片。
+（2）此次实现中使用了VGG19的卷积神经网络模型，优化过程使用了scipy.optimizer
+    基于L-BFGS算法的fmin_l_bfgs_b方法
+（3）每次反向优化20次写出一张图片，在代码运行过程中发现超过10次loss减少量减少
+    趋于平缓，所以只写出15张图片
+（4）从images文件夹中选择普通图片和风格图片，并且不同风格和内容图片中间过程生成
+    的图片都在results文件夹中
+ (5)由于保存权值的.h5文件较大，这里给出下载地址
+    https://github.com/fchollet/deep-learning-models/
+    releases/download/v0.1/vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5
+'''
 import time
 from scipy.misc import imsave
 from scipy.optimize import fmin_l_bfgs_b
@@ -17,7 +30,7 @@ from keras.applications.imagenet_utils import _obtain_input_shape
 #使用tensorflow环境编程
 os=K.os
 np=K.np
-#定义目标图像长宽
+#定义目标图像长宽将长宽同时缩小为原来图形的两倍，则矩阵缩小为原来的1/4
 img_rows=400
 img_columns=300
 #读入图片文件，以数组形式展开成三阶张量，后用numpy扩展为四阶张量
@@ -28,7 +41,7 @@ def read_img(filename):
 	img=np.expand_dims(img,axis=0)
 	img=preprocess_input(img)
 	return img
-#写入/存储图片，将输出数组转换为三维张量，量化高度层BGR,并将BGR->RGB
+#写入/存储图片在results的文件夹中，将输出数组转换为三维张量，量化高度层BGR,并将BGR->RGB
 #经灰度大小截断在（0,255）
 def write_img(x,ordering):
 	x=x.reshape((img_columns,img_rows,3))
@@ -42,9 +55,10 @@ def write_img(x,ordering):
 		os.mkdir('results')
 	imsave(result_file,x)
 	print(result_file)
-#建立vgg19模型
+#建立vgg19模型，本来卷基层+全连接层+输入层=19层，由于不是用于分类，没有用到全连接层，使用了no top模型
+#no top模型权重大小为80.1M远远小于include top的权重574,7M
 def vgg19_model(input_tensor):
-	img_input=Input(tensor=input_tensor,shape=(3,600,800,3))
+	img_input=Input(tensor=input_tensor,shape=(300,400,3))
 	#Blocks 1
 	x=Conv2D(64,(3,3),activation='relu',padding='same',name='block1_conv1')(img_input)
 	x=Conv2D(64,(3,3),activation='relu',padding='same',name='block1_conv2')(x)
@@ -76,33 +90,38 @@ def vgg19_model(input_tensor):
 	model=Model(inputs,x,name='vgg19')
 	weights_path='vgg19_weights_tf_dim_ordering_tf_kernels_notop.h5'
 	model.load_weights(weights_path)
+	#model.load_weights('mymodel_weights.h5')
 	return model
-#生成输入的张量,将内容，风格和迁移图像（中间量）一起输入到vgg模型中，返回三合一张量，和中间图张量
+#生成输入的张量,将内容，风格和迁移图像（中间量）一起输入到vgg模型中，返回三合一张量，和中间
+#张量输入到VGG模型时要用到input tensor,中间计算要用到迁移图像的tensor,所以只输出这两个值
+#待迁移图像初始化为一个待优化图片的占位符，初始输入为随机噪声图像，然后是一直优化的图像
 def create_tensor(content_path,style_path):
 	content_tensor=K.variable(read_img(content_path))
 	style_tensor=K.variable(read_img(style_path))
 	transfer_tensor=K.placeholder((1,img_columns,img_rows,3))
 	input_tensor=K.concatenate([content_tensor,style_tensor,transfer_tensor],axis=0)
 	return input_tensor,transfer_tensor
-#设置Gram_matrix矩阵的计算图，输入为某一层的representation
+#设置Gram_matrix矩阵的计算图，输入为某一层的representation,Gram 矩阵表示向量组的相关性，用于求解
+#迁移图像关于风格图像的loss
 def gram_matrix(x):
 	features=K.batch_flatten(K.permute_dimensions(x,(2,0,1)))
 	gram=K.dot(features,K.transpose(features))
 	return gram
-#风格loss
-def style_loss(style_img_feature,transfer_img_feature):
-	style=style_img_feature
-	transfer=transfer_img_feature
+#计算风格的loss,以风格图像和迁移图像的representation为输入，分别计算gram矩阵，再求解两个Gram矩阵的
+#二范数，除以归一化值
+def style_loss(style_img_representation,transfer_img_representation):
+	style=style_img_representation
+	transfer=transfer_img_representation
 	A=gram_matrix(style)
 	G=gram_matrix(transfer)
 	channels=3
 	size=img_rows*img_columns
 	loss=K.sum(K.square(A-G))/(4.*(channels**2)*(size**2))
 	return loss
-#内容loss
-def content_loss(content_img_feature,transfer_img_feature):
-	content=content_img_feature
-	transfer=transfer_img_feature
+#计算内容loss,输入为内容和迁移图片的presentation，输出为其reprensentation差的二范数
+def content_loss(content_img_representation,transfer_img_representation):
+	content=content_img_representation
+	transfer=transfer_img_representation
 	loss=K.sum(K.square(transfer-content))
 	return loss		 
 #变量loss,一段迷一样的表达式×-×，施加全局差正则表达式，全局差正则用于使生成的图片更加平滑自然
@@ -111,7 +130,8 @@ def total_variation_loss(x):
 	b=K.square(x[:,:img_columns-1,:img_rows-1,:]-x[:,:img_columns-1,1:,:])
 	loss=K.sum(K.pow(a+b,1.25))
 	return loss
-#total loss
+#建立层名称到层输出张量映射的dict,便于取得各层输出feature map,分别求解style loss和content loss
+#风格loss和内容loss按照10：1结合为全变量差约束
 def total_loss(model,loss_weights,transfer_tensor):
 	loss=K.variable(0.)
 	layer_features_dict=dict([(layer.name,layer.output) for layer in model.layers])
@@ -137,7 +157,7 @@ def create_outputs(total_loss,transfer_tensor):
 	else:
 		outputs.append(gradients)
 	return outputs
-#计算输入图像的关于损失函数的倒数和对应损失值
+#计算输入图像的关于损失函数的梯度值和对应损失值
 def eval_loss_and_grads(x):
 	x=x.reshape((1,img_columns,img_rows,3))
 	outs=outputs_func([x])
@@ -147,7 +167,7 @@ def eval_loss_and_grads(x):
 	else:
 		grads_value=np.array(outs[1:]).flatten().astype('float64')
 	return loss_value,grads_value
-#获取评价程序
+#获取评价程序，将获取计算loss和gradients的函数
 class Evaluator(object):
 	def __init__(self):
 		self.loss_value=None
@@ -166,10 +186,13 @@ class Evaluator(object):
 if __name__=='__main__':
 	print('')
 	print('Welcom!')
-	#path={'content':'images/Macau.jpg','style':'images/StarryNight.jpg'}
-	path={'content':'images/Taipei.jpg','style':'images/StarryNight.jpg'}
+	#输入图片路径
+	path={'content':'images/k.jpg','style':'images/StarryNight.jpg'}
+	#path={'content':'images/Taipei101.jpg','style':'images/guernica.jpg'}
 	input_tensor,transfer_tensor=create_tensor(path['content'],path['style'])
-	loss_weights={'style':1.0,'content':0.025,'total':1.0}
+	#用来计算总loss的系数
+	#loss_weights={'style':1.0,'content':0.025,'total':1.0}
+	loss_weights={'style':1.0,'content':0.01,'total':1.0}
 	model=vgg19_model(input_tensor)
 	#生成总的反向特征缺失
 	total_loss=total_loss(model,loss_weights,transfer_tensor)
@@ -183,7 +206,7 @@ if __name__=='__main__':
 	x=np.random.uniform(0,225,(1,img_columns,img_rows,3))-128
 	#迭代训练15次
 	for ordering in range(15):
-		print('Start:',ordering)
+		print('Start:',ordering+1)
 		start_time=time.time()
 		x,min_val,info=fmin_l_bfgs_b(evaluator.loss,x.flatten(),fprime=evaluator.grads,maxfun=20)
 		print('Current_Loss:',min_val)
@@ -191,3 +214,4 @@ if __name__=='__main__':
 		write_img(img,ordering)
 		end_time=time.time()
 		print('Used %ds'%(end_time-start_time))
+	model.save_weights('mymodel_weights.h5')

@@ -62,7 +62,7 @@ def write_img(x,ordering):
 	print(result_file)
 #建立vgg19模型
 def vgg19_model(input_tensor):
-	img_input=Input(tensor=input_tensor,shape=(3,600,800,3))
+	img_input=Input(tensor=input_tensor,shape=(img_columns,img_rows,3))
 	#Blocks 1
 	x=Conv2D(64,(3,3),activation='relu',padding='same',name='block1_conv1')(img_input)
 	x=Conv2D(64,(3,3),activation='relu',padding='same',name='block1_conv2')(x)
