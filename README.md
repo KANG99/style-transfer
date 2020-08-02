@@ -1,22 +1,22 @@
 # *CNN图像风格迁移*
 
    
-   距离2017年用keras书写图像风格迁移的代码，已经过去三年了。2020年7月20号更新了一下keras的代码，并且利用pytorch重写了一下这段代码，用pytorch写的时候才发现原来里面很多原理都是很不清楚的。阔别三年重写这个项目别有一番感受。代码程序虽然进行了重写，但是参考了官方文档的大量代码,代码重写都是在业余时间完成的，代码中可能较多不足之处，欢迎提issue指正，不胜感激！
+  距离2017年用keras书写图像风格迁移的代码，已经过去三年了。2020年7月20号更新了一下keras的代码，并且利用pytorch重写了一下这段代码，用pytorch写的时候才发现原来里面很多原理都是很不清楚的。阔别三年重写这个项目别有一番感受。代码程序虽然进行了重写，但是参考了官方文档的大量代码,代码重写都是在业余时间完成的，代码中可能较多不足之处，欢迎提issue指正，不胜感激！
    
 + images文件夹里存放了素材图片（包括内容图片和风格图片）
 
-+ pytorch官网:![code](https://pytorch.org/tutorials/advanced/neural_style_tutorial.html)
++ [python官方示例]:(https://pytorch.org/tutorials/advanced/neural_style_tutorial.html)
 
-+ keras官网:[code](https://keras.io/examples/generative/neural_style_transfer/)
++ [keras官方示例](https://keras.io/examples/generative/neural_style_transfer/)
 
     
 ## 图片
 ### 内容图像 
-![image te](https://github.com/KANG99/style-transfer/blob/master/images/Taipei101.jpg)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/images/Taipei101.jpg)
 ### keras实现效果
-![image text](https://github.com/KANG99/style-transfer/blob/master/images/show_keras.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/images/show_keras.png)
 ### pytorch实现效果
-![image text](https://github.com/KANG99/style-transfer/blob/master/images/show_keras.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/images/show_keras.png)
 
 ## 代码
 ### keras实现
@@ -384,18 +384,18 @@ if __name__ == "__main__":
 ```
 
 ### VGG模型，结构图如下：
-![image text](https://github.com/KANG99/style-transfer/blob/master/vgg_img.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/vgg_img.png)
 
 ### VGG19模型，示意图如下：
-![image text](https://github.com/KANG99/style-transfer/blob/master/vgg19_img.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/vgg19_img.png)
 
 ### VGG16模型，示意图如下：
-![image text](https://github.com/KANG99/style-transfer/blob/master/vgg16_img.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/vgg16_img.png)
 
 
 ### 主要流程
-![image text](https://github.com/KANG99/style-transfer/blob/master/proc.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/proc.png)
 
 ### vgg16流程
-![image text](https://github.com/KANG99/style-transfer/blob/master/proc_vgg16.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/proc_vgg16.png)
 
