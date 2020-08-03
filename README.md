@@ -5,6 +5,8 @@
    
 + images文件夹里存放了素材图片（包括内容图片和风格图片）
 
++ results文件里面存放了最终效果图
+
 + [pytorch官方示例](https://pytorch.org/tutorials/advanced/neural_style_tutorial.html)
 
 + [keras官方示例](https://keras.io/examples/generative/neural_style_transfer/)
@@ -14,9 +16,9 @@
 ### 内容图像 
 ![Alt text](https://github.com/KANG99/style-transfer/blob/master/images/Taipei101.jpg)
 ### keras实现效果
-![Alt text](https://github.com/KANG99/style-transfer/blob/master/images/show_keras.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/results/show_keras.png)
 ### pytorch实现效果
-![Alt text](https://github.com/KANG99/style-transfer/blob/master/images/show_keras.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/results/show_torch.png)
 
 ## 代码
 ### keras实现
@@ -384,18 +386,18 @@ if __name__ == "__main__":
 ```
 
 ### VGG模型，结构图如下：
-![Alt text](https://github.com/KANG99/style-transfer/blob/master/vgg_img.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/operation_principle/vgg_img.png)
 
 ### VGG19模型，示意图如下：
-![Alt text](https://github.com/KANG99/style-transfer/blob/master/vgg19_img.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/operation_principle/vgg19_img.png)
 
 ### VGG16模型，示意图如下：
-![Alt text](https://github.com/KANG99/style-transfer/blob/master/vgg16_img.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/operation_principle/vgg16_img.png)
 
 
 ### 主要流程
-![Alt text](https://github.com/KANG99/style-transfer/blob/master/proc.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/operation_principle/proc.png)
 
 ### vgg16流程
-![Alt text](https://github.com/KANG99/style-transfer/blob/master/proc_vgg16.png)
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/operation_principle/proc_vgg16.png)
 
