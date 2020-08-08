@@ -7,9 +7,15 @@
 
 + results文件里面存放了最终效果图
 
-+ [pytorch官方示例](https://pytorch.org/tutorials/advanced/neural_style_tutorial.html)
++ pytorch官方示例：https://pytorch.org/tutorials/advanced/neural_style_tutorial.html
 
-+ [keras官方示例](https://keras.io/examples/generative/neural_style_transfer/)
++ keras官方示例： https://keras.io/examples/generative/neural_style_transfer/
+
++ 预训练模型下载链接：https://pan.baidu.com/s/10Ll4-xuqZD1kY8l9N59eJg ；提取码：6adc
+
++ 运行代码（要将预训练模型和代码文件要放在同一个目录下）
+![Alt text](https://github.com/KANG99/style-transfer/blob/master/images/Run.png)
+
 
     
 ## 图片
